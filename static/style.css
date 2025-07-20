@@ -1,0 +1,343 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;  /*讓元素的 width 和 height 包含了 padding 和 border*/
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #1a1a2e;  /* 可以在手機上填充整個背景 */
+    min-height: 100vh;
+    color: #e8eaed;  /* 淺色文字 */
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto 30vh auto;  /* 上 右 下 左 */
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #ffffff;  /* 標題保持純白 */
+}
+
+header h1 {
+    font-size: 2.6rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #fbbf24;
+    text-shadow: 0 2px 20px rgba(251, 191, 36, 0.3);
+    letter-spacing: -0.5px;
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 2.1rem;
+    }
+}
+
+header p {
+    font-size: 1rem;
+    color: rgba(232, 234, 237, 0.8);
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+/* 上傳區域 */
+.upload-section {
+    margin-bottom: 30px;
+}
+
+.upload-area {
+    color: #e8eaed;
+    background: rgba(255, 255, 255, 0.05);
+    border: 3px dashed rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    padding: 20px;  /* 減少內邊距 */
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 400px;  /* 設定最小高度 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.upload-area.active-touch {
+    transform: scale(0.97);
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.10);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5); 
+}
+
+.upload-area.dragover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);  /* 拖拽時也是白色 */
+    transform: scale(1.02);
+}
+
+/* 上傳提示內容 */
+.upload-content {
+    padding: 40px 20px;
+}
+
+.upload-content .upload-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.upload-content p {
+    font-size: 1.2rem;
+    color: #e8eaed;  /* 主要文字色 */
+    margin-bottom: 5px;
+}
+
+.upload-content small {
+    color: rgba(232, 234, 237, 0.7);  /* 次要文字，70% 透明度 */
+}
+
+.solve-btn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);  /* 橘色漸層 */
+    color: #1a1a2e;  /* 深色文字 */
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+}
+
+/* 按鈕觸控（按下去縮小） */
+.solve-btn.active-touch {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    transform: scale(0.96);
+    box-shadow: 0 4px 8px rgba(251, 191, 36, 0.18);
+    filter: brightness(0.98);
+}
+
+.solve-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* 第一個主要框框：上傳與求解區域 */
+.upload-main-section {
+    background: rgba(255, 255, 255, 0.1);  /* 半透明白色 */
+    backdrop-filter: blur(10px);           /* 毛玻璃效果 */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+/* 第二個主要框框：解答展示區域 */
+.result-main-section {
+    background: rgba(255, 255, 255, 0.1);  /* 半透明白色 */
+    backdrop-filter: blur(10px);           /* 毛玻璃效果 */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    margin-top: 30px;
+    opacity: 0;
+    transition: all 1.2s ease;
+    pointer-events: none;  /* 避免動畫過程中被點擊 */
+}
+
+.result-main-section.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* 預覽內容樣式 */
+.preview-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.preview-content img {
+    max-width: 90%;
+    max-height: 500px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
+    object-fit: contain;
+}
+
+.preview-info {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.preview-info p {
+    color: rgba(232, 234, 237, 0.8);  /* 資訊文字，80% 透明度 */
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.change-image-btn {
+    background: rgba(255, 255, 255, 0.1);  /* 半透明白色背景 */
+    border: 2px solid rgba(255, 255, 255, 0.3);  /* 半透明白色邊框 */
+    color: #e8eaed;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);  /* 輕微毛玻璃效果 */
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+}
+
+.change-image-btn.active-touch {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 6px 18px rgba(255, 255, 255, 0.18);
+    filter: brightness(1.12) contrast(1.1);
+}
+
+/* 載入中動畫 */
+.loading {
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 20px;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top: 4px solid #fbbf24;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading p {
+    color: #e8eaed;  /* 載入文字使用主要色 */
+    font-size: 1.1rem;
+}
+
+/* 解答區域整體 */
+.result-section {
+    margin-top: 10px;
+}
+
+.result-section h3,
+.result-images h3 {
+    color: #fbbf24;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    text-shadow: 0 2px 10px rgba(251, 191, 36, 0.2);
+    position: relative;
+    padding-bottom: 10px;
+}
+
+/* 解答文字區域 */
+.result-text {
+    margin-bottom: 30px;
+}
+
+#resultMessage {
+    background: rgba(255, 255, 255, 0.05);
+    color: #e8eaed;
+    padding: 15px;
+    border-radius: 8px;
+    white-space: pre-wrap;
+    font-family: 'Courier New', monospace;
+    margin-top: 10px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);  /* 添加細邊框 */
+}
+
+/* 圖片畫廊區域 */
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 25px;
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);  /* 添加細邊框 */
+}
+
+/* 圖片項目 */
+.gallery-item {
+    text-align: center;
+}
+
+.gallery-item img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);  /* 加深陰影 */
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);  /* 添加細邊框 */
+}
+
+/* 圖片說明文字 */
+.gallery-item p {
+    margin-top: 10px;
+    color: rgba(232, 234, 237, 0.8);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* 只有在電腦上才會啟用 */
+@media (hover: hover) and (pointer: fine) { 
+    .upload-area:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.5); 
+        transform: translateY(-2px);
+    }
+
+    .solve-btn:hover:not(:disabled) {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(251, 191, 36, 0.3);
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none;
+    }
+
+    .change-image-btn:hover {
+        background: rgba(255, 255, 255, 0.2);  /* 懸浮時更亮 */
+        border-color: rgba(255, 255, 255, 0.5);  /* 懸浮時邊框更亮 */
+        transform: translateY(-1px);  /* 輕微上浮效果 */
+        box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);  /* 白色陰影 */
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none;
+    }
+
+    .gallery-item img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.3);  /* 懸浮時更深陰影 */
+    }
+}

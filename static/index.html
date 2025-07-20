@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queens Solver</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏁 Queens Solver</h1>
+            <p>上傳問題圖片，求解所有可能的答案</p>
+        </header>
+
+        <main>
+            <!-- 第一個主要框框：上傳與求解區域 -->
+            <div class="upload-main-section">
+                <div class="upload-section">
+                    <div class="upload-area" id="uploadArea">
+                        <!-- 預設的上傳提示內容 -->
+                        <div class="upload-content" id="uploadContent">
+                            <div class="upload-icon">📷</div>
+                            <p>點擊或拖放圖片到這裡</p>
+                            <small>支援 PNG, JPG, JPEG 格式</small>
+                        </div>
+                        
+                        <!-- 圖片預覽 (一開始隱藏) -->
+                        <div class="preview-content" id="previewContent" style="display: none;">
+                            <img id="previewImage" alt="預覽圖片">
+                            <div class="preview-info">
+                                <p id="fileName">檔案名稱</p>
+                                <button type="button" class="change-image-btn" id="changeImageBtn">
+                                    🔄 更換圖片
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <input type="file" id="fileInput" accept="image/*" hidden>
+                    </div>
+                    
+                    <button id="solveBtn" class="solve-btn" disabled>
+                        🚀 開始求解
+                    </button>
+                </div>
+
+                <!-- 載入中狀態 -->
+                <div class="loading" id="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>正在處理中，請稍候...</p>
+                </div>
+            </div>
+
+            <!-- 第二個主要框框：解答展示區域 (解答完成後才顯示) -->
+            <div class="result-main-section" id="resultMainSection" style="display: none;">
+                <div class="result-section">
+                    <div class="result-text">
+                        <h3>🎯 解答結果</h3>
+                        <div id="resultMessage"></div>
+                    </div>
+                    
+                    <div class="result-images" id="resultImages">
+                        <h3>📸 解答圖片</h3>
+                        <div class="image-gallery" id="imageGallery"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
