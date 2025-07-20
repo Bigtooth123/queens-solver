@@ -17,7 +17,7 @@ Queens Solver is a web application that solves the Queens game on a colored ches
 
 - `main.py`: FastAPI backend server.
 - `board_processor.py`: Image processing and solver integration.
-- `solver_engine.cpp`: C++ N-Queens solver for colored chessboards.
+- `solver_engine.cpp`: N-Queens solver for colored chessboards.
 - `static/`: Frontend files (HTML, CSS, JS).
 - `uploads/`: Uploaded images (auto-created).
 - `results/`: Generated solution images (auto-created).
