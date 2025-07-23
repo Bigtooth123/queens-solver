@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include <iostream>
 
 using namespace std;
 
@@ -72,14 +72,14 @@ int main(){
     }
 
     if(num_of_color+1 != board_size){
-        cout << "no anser";
+        cout << "no answer";
         return 0;
     }
 
     queens(0, board_size);
 
     if(find_ans == false){
-        cout << "no anser";
+        cout << "no answer";
     }
     
     return 0;

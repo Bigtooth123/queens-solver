@@ -116,9 +116,9 @@ async def upload_and_solve(file: UploadFile = File(...)):
         print(f"棋盤偵測成功: {len(board)}x{len(board[0])}")
         
         print("執行 C++ 解題程序...")
-        anser_board = solve_with_cpp(board)
+        answer_board = solve_with_cpp(board)
         
-        if anser_board is None:
+        if answer_board is None:
             print("此棋盤配置無解")
             return JSONResponse({
                 "success": False,
@@ -127,16 +127,16 @@ async def upload_and_solve(file: UploadFile = File(...)):
                 "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             })
         
-        print(f"求解成功，共找到 {len(anser_board)} 組解答")
+        print(f"求解成功，共找到 {len(answer_board)} 組解答")
         
         # 生成結果圖片
         result_images = []
-        for i in range(len(anser_board)):
+        for i in range(len(answer_board)):
             output_filename = f"{filename_prefix}_{i+1}.png"
             output_path = os.path.join("results", output_filename)
             
             draw_solution_with_crowns(
-                anser_board[i], 
+                answer_board[i], 
                 color_board, 
                 output_path=output_path
             )
@@ -148,7 +148,7 @@ async def upload_and_solve(file: UploadFile = File(...)):
         
         return JSONResponse({
             "success": True,
-            "message": f"成功找到 {len(anser_board)} 個解答！",
+            "message": f"成功找到 {len(answer_board)} 個解答！",
             "result_images": result_images,
             "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         })        

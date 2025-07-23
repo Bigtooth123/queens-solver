@@ -198,7 +198,7 @@ def detect_chessboard_grid(image_path):
 def solve_with_cpp(int_board):
     """
     呼叫 C++ 程式，將 int_board 傳給 C++，取得所有解答。
-    回傳anser_board，每個元素為一組解答的棋盤
+    回傳answer_board，每個元素為一組解答的棋盤
     若無解或發生錯誤則回傳 None
     """
 
@@ -233,17 +233,17 @@ def solve_with_cpp(int_board):
         return None
     
     lines = stdout.strip().split("\n")  # 按行分割
-    if "no anser" in lines[0]:
+    if "no answer" in lines[0]:
         return None
     
-    anser_count = len(lines)//len(int_board)
-    anser_board = [[] for _ in range(anser_count)]
-    for i in range(anser_count):
+    answer_count = len(lines)//len(int_board)
+    answer_board = [[] for _ in range(answer_count)]
+    for i in range(answer_count):
         for j in range(len(int_board)):
-            anser_board[i].append([int(x) for x in lines[i*len(int_board)+j].split()])
+            answer_board[i].append([int(x) for x in lines[i*len(int_board)+j].split()])
 
     #[i][j][k] 第i組解答的第j row 第k column
-    return anser_board
+    return answer_board
 
 def draw_solution_with_crowns(board, color_board, output_path="solution_with_crowns.png"):
     """
