@@ -3,3 +3,5 @@ solver_engine
 solver_engine.exe
 uploads/
 results/
+.vscode/
+venv/
